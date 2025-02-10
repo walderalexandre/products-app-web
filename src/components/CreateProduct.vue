@@ -13,7 +13,7 @@
                 <label class="block text-gray-700 font-semibold mb-2">Preço</label>
                 <input v-model="form.preco"
                        type="number"
-                       step="0.01"
+                       step="0,01"
                        class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                        required />
             </div>
@@ -33,13 +33,15 @@
 <script>
     import axios from 'axios';
 
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
     export default {
         props: {
             isEdit: {
                 type: Boolean,
                 default: false,
             },
-            productId: {
+            id: {
                 type: String,
                 default: null,
             },
@@ -54,23 +56,28 @@
             };
         },
         async created() {
-            if (this.isEdit && this.productId) {
-                try {
-                    const response = await axios.get(`http://localhost:8000/api/products/${this.productId}`);
-                    this.form = response.data;
-                } catch (error) {
-                    console.error('Erro ao carregar produto:', error);
-                }
+            if (this.isEdit && this.$route.params.id) {
+                await this.loadProduct();
             }
         },
         methods: {
+            async loadProduct() {
+                
+                try {
+                    const response = await axios.get(`${API_BASE_URL}/products/${this.$route.params.id}`);
+                    this.form = response.data.data;
+                    
+                } catch (error) {
+                    console.error('Erro ao carregar produto:', error);
+                }
+            },
             async submitForm() {
                 try {
                     if (this.isEdit) {
-                        await axios.put(`http://localhost:8000/api/products/${this.productId}`, this.form);
+                        await axios.put(`${API_BASE_URL}/products/${this.$route.params.id}`, this.form);
                         alert('Produto atualizado com sucesso!');
                     } else {
-                        await axios.post('http://localhost:8000/api/products', this.form);
+                        await axios.post('${API_BASE_URL}/products', this.form);
                         alert('Produto criado com sucesso!');
                     }
                     this.$router.push('/');
