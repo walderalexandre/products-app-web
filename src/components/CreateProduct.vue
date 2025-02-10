@@ -1,4 +1,4 @@
-<template>
+ï»¿<template>
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">{{ isEdit ? 'Editar Produto' : 'Criar Produto' }}</h1>
         <form @submit.prevent="submitForm" class="bg-white shadow-md rounded-lg p-6 max-w-md mx-auto">
@@ -10,7 +10,7 @@
                        required />
             </div>
             <div class="mb-4">
-                <label class="block text-gray-700 font-semibold mb-2">Preço</label>
+                <label class="block text-gray-700 font-semibold mb-2">PreÃ§o</label>
                 <input v-model="form.preco"
                        type="number"
                        step="0,01"
@@ -18,7 +18,7 @@
                        required />
             </div>
             <div class="mb-4">
-                <label class="block text-gray-700 font-semibold mb-2">Descrição</label>
+                <label class="block text-gray-700 font-semibold mb-2">DescriÃ§Ã£o</label>
                 <textarea v-model="form.descricao"
                           class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
             </div>
@@ -68,7 +68,11 @@
                     this.form = response.data.data;
                     
                 } catch (error) {
-                    console.error('Erro ao carregar produto:', error);
+                    if (error.response && error.response.status === 422) {
+                        alert(error.response.data.message);
+                    } else {
+                        console.error(error);
+                    }
                 }
             },
             async submitForm() {
@@ -77,12 +81,16 @@
                         await axios.put(`${API_BASE_URL}/products/${this.$route.params.id}`, this.form);
                         alert('Produto atualizado com sucesso!');
                     } else {
-                        await axios.post('${API_BASE_URL}/products', this.form);
+                        await axios.post(`${API_BASE_URL}/products`, this.form);
                         alert('Produto criado com sucesso!');
                     }
                     this.$router.push('/');
                 } catch (error) {
-                    console.error('Erro ao salvar produto:', error);
+                    if (error.response && error.response.status === 422) {
+                        alert(error.response.data.message);
+                    } else {
+                        console.error(error);
+                    }
                 }
             },
         },

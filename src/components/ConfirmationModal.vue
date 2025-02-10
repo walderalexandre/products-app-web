@@ -1,4 +1,4 @@
-<template>
+ï»¿<template>
     <Transition name="modal">
         <div v-if="isOpen" class="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50 z-50">
             <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative focus:outline-none" @keydown.esc="closeModal" ref="modalContent">
@@ -26,11 +26,11 @@
             },
             title: {
                 type: String,
-                default: 'Confirmar', // Título padrão
+                default: 'Confirmar', // TÃ­tulo padrÃ£o
             },
             message: {
                 type: String,
-                default: 'Tem certeza que deseja realizar esta ação?', // Mensagem padrão
+                default: 'Tem certeza que deseja realizar esta alteraÃ§Ã£o?', // Mensagem padrï¿½o
             },
         },
         emits: ['close', 'confirm'],
