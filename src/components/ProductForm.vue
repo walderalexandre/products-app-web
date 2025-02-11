@@ -27,8 +27,9 @@
                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
         </div>
         <button type="submit"
+                :disabled="isSubmitting"
                 class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors">
-            {{ submitText }}
+            {{ isSubmitting ? 'Enviando...' : submitText }}
         </button>
     </form>
 </template>
@@ -48,6 +49,7 @@
         data() {
             return {
                 form: { ...this.product },
+                isSubmitting: false,
             };
         },
         watch: {
@@ -60,7 +62,8 @@
         },
         methods: {
             handleSubmit() {
-                console.log('Formulário enviado:', this.form);
+                if (this.isSubmitting) return;
+                this.isSubmitting = true;
                 this.$emit('submit', this.form);
             },
         },

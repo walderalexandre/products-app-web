@@ -28,6 +28,7 @@
         components: { AppLayout, ProductForm },
         data() {
             return {
+                isSubmitting: false,
                 isEdit: false,
                 selectedProduct: {
                     nome: '',
@@ -65,12 +66,13 @@
             },
             async submitForm(formData) {
                 try {
+                    if (this.isSubmitting) return;
+                    this.isSubmitting = true;
+
                     if (this.isEdit) {
-                        console.log('editando');
                         await axios.put(`${API_BASE_URL}/products/${this.$route.params.id}`, formData);
                         alert('Produto atualizado com sucesso!');
                     } else {
-                        console.log('criando');
                         await axios.post(`${API_BASE_URL}/products`, formData);
                         alert('Produto criado com sucesso!');
                     }
@@ -82,6 +84,8 @@
                     } else {
                         console.error(error);
                     }
+                } finally {
+                    this.isSubmitting = false;
                 }
             },
             goBack() {
