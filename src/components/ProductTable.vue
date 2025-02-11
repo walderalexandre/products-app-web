@@ -12,8 +12,15 @@
                 <td class="px-6 py-4 whitespace-nowrap">{{ product.nome }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ product.preco_formatado }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <button @click="$emit('edit', product)" class="px-3 py-2 text-xs font-medium text-center text-white bg-sky-600 rounded-lg hover:bg-sky-950">Editar</button>
-                    <button @click="$emit('delete', product.id)" class="ml-2 px-3 py-2 text-xs font-medium text-center text-white bg-red-800 rounded-lg hover:bg-red-950">Excluir</button>
+                    <Button @click="$emit('details', product)"
+                            class="ml-2">
+                        Detalhes
+                    </Button>
+                    <Button @click="$emit('delete', product.id)"
+                            variant="danger"
+                            class="ml-2">
+                        Excluir
+                    </Button>
                 </td>
             </tr>
         </tbody>
@@ -21,12 +28,15 @@
 </template>
 
 <script>
-export default {
-  props: {
-    products: {
-      type: Array,
-      required: true,
-    },
-  },
-};
+    import Button from '@/components/Button.vue';
+
+    export default {
+        components: { Button, },
+        props: {
+        products: {
+            type: Array,
+            required: true,
+        },
+        },
+    };
 </script>

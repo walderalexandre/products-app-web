@@ -85,7 +85,8 @@
                 }
             },
             goBack() {
-                this.$router.push('/');
+                const productId = this.$route.params.id;
+                this.$router.push(`/product/details/${productId}`);
             },
         },
     };

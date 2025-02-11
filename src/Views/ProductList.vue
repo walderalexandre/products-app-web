@@ -12,6 +12,7 @@
     <ProductTable
       :products="paginatedProducts"
       @edit="goToEdit"
+      @details="goToDetails"
       @delete="openDeleteModal"
     />
 
@@ -77,33 +78,14 @@
         },
       },
       methods: {
-        openDeleteModal(productId) {
-          this.selectedProductId = productId;
-          this.isModalOpen = true;
-        },
-
-        closeDeleteModal() {
-          this.isModalOpen = false;
-          this.selectedProductId = null;
-        },
-
         goToCreate() {
-          this.$router.push('/product/create');
+            this.$router.push('/product/create');
         },
         goToEdit(product) {
           this.$router.push(`/product/edit/${product.id}`);
         },
-        async previousPage() {
-          if (this.currentPage > 1) {
-            this.currentPage--;
-            await this.getProducts(this.currentPage);
-          }
-        },
-        async nextPage() {
-          if (this.currentPage < this.totalPages) {
-            this.currentPage++;
-            await this.getProducts(this.currentPage);
-          }
+        goToDetails(product) {
+          this.$router.push(`/product/details/${product.id}`);
         },
         async getProducts(page) {
           try {
@@ -137,6 +119,26 @@
             } finally {
                 this.closeDeleteModal();
             }
+          }
+        },
+        openDeleteModal(productId) {
+            this.selectedProductId = productId;
+            this.isModalOpen = true;
+        },
+        closeDeleteModal() {
+          this.isModalOpen = false;
+          this.selectedProductId = null;
+        },
+        async previousPage() {
+          if (this.currentPage > 1) {
+            this.currentPage--;
+            await this.getProducts(this.currentPage);
+          }
+        },
+        async nextPage() {
+          if (this.currentPage < this.totalPages) {
+            this.currentPage++;
+            await this.getProducts(this.currentPage);
           }
         },
       },
