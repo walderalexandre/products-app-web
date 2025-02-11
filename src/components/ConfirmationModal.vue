@@ -26,11 +26,11 @@
             },
             title: {
                 type: String,
-                default: 'Confirmar', // Título padrão
+                default: 'Confirmar',
             },
             message: {
                 type: String,
-                default: 'Tem certeza que deseja realizar esta alteração?', // Mensagem padr�o
+                default: 'Tem certeza que deseja realizar esta alteração?',
             },
         },
         emits: ['close', 'confirm'],
