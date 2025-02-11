@@ -47,22 +47,22 @@ export default {
   components: { AppLayout, ProductTable },
   data() {
     return {
-      products: [], // Dados da página atual
+      products: [],
       loading: true,
-      currentPage: 1, // Página atual
-      total: 0, // Total de registros
-      pageSize: 10, // Itens por página
+      currentPage: 1,
+      total: 0,
+      pageSize: 10,
     };
   },
   async created() {
-    await this.getProducts(this.currentPage); // Busca os dados ao carregar o componente
+    await this.getProducts(this.currentPage);
   },
   computed: {
     totalPages() {
-      return Math.ceil(this.total / this.pageSize); // Total de páginas
+      return Math.ceil(this.total / this.pageSize);
     },
     paginatedProducts() {
-      return this.products; // Retorna os dados da página atual
+      return this.products;
     },
   },
   methods: {
@@ -74,23 +74,23 @@ export default {
     },
     async previousPage() {
       if (this.currentPage > 1) {
-        this.currentPage--; // Vai para a página anterior
-        await this.getProducts(this.currentPage); // Busca os dados da nova página
+        this.currentPage--;
+        await this.getProducts(this.currentPage);
       }
     },
     async nextPage() {
       if (this.currentPage < this.totalPages) {
-        this.currentPage++; // Vai para a próxima página
-        await this.getProducts(this.currentPage); // Busca os dados da nova página
+        this.currentPage++;
+        await this.getProducts(this.currentPage);
       }
     },
     async getProducts(page) {
       try {
         this.loading = true;
         const response = await axios.get(`${API_BASE_URL}/products?page=${page}&page_size=${this.pageSize}`);
-        this.products = response.data.data; // Dados da página atual
-        this.currentPage = response.data.meta.current_page; // Sincroniza a página atual
-        this.total = response.data.meta.total; // Total de registros
+        this.products = response.data.data;
+        this.currentPage = response.data.meta.current_page;
+        this.total = response.data.meta.total;
       } catch (error) {
         if (error.response && error.response.status === 422) {
           alert(error.response.data.message);
@@ -105,7 +105,7 @@ export default {
       if (confirm('Tem certeza que deseja excluir este produto?')) {
         try {
           await axios.delete(`${API_BASE_URL}/products/${id}`);
-          this.products = this.products.filter((product) => product.id !== id); // Remove o produto da lista
+          this.products = this.products.filter((product) => product.id !== id);
           alert('Produto excluído com sucesso!');
         } catch (error) {
           if (error.response && error.response.status === 422) {

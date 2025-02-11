@@ -1,33 +1,22 @@
-# products-app-web
+# Sistema de Produtos - Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+Este é o frontend do Sistema de Produtos, desenvolvido com Vue.js, Tailwind CSS e Zod para validação de esquemas.
 
-## Recommended IDE Setup
+## Funcionalidades
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Listagem de produtos com paginação.
+- Criação, edição e exclusão de produtos.
+- Validação de formulários com Jest.
+- Interface responsiva e moderna com Tailwind CSS.
 
-## Type Support for `.vue` Imports in TS
+## Pré-requisitos
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- Node.js (v16 ou superior)
+- npm (v8 ou superior)
 
-## Customize configuration
+## Instalação
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/walderalexandre/products-app-web
+   cd products-app-web
