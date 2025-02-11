@@ -60,6 +60,7 @@
         },
         methods: {
             handleSubmit() {
+                console.log('Formulário enviado:', this.form);
                 this.$emit('submit', this.form);
             },
         },

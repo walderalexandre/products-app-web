@@ -1,9 +1,9 @@
 ﻿<template>
-  <div class="p-6">
+  <AppLayout>
     <h1 class="text-2xl font-bold mb-4">Listagem de Produtos</h1>
     <button
       @click="goToCreate"
-      class="bg-blue-500 text-white px-4 py-2 rounded-md mb-4"
+      class="bg-blue-500 text-white px-4 py-2 rounded-md mb-4 float-right"
     >
       Adicionar Produto
     </button>
@@ -33,42 +33,36 @@
         Próxima
       </button>
     </div>
-  </div>
+  </AppLayout>
 </template>
 
 <script>
 import axios from 'axios';
-import ProductTable from '../components/ProductTable.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import ProductTable from '@/components/ProductTable.vue';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;  
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
-    components: { ProductTable },
+  components: { AppLayout, ProductTable },
   data() {
     return {
-      products: [],
+      products: [], // Dados da página atual
       loading: true,
-      deleteLoading: false,
-      selectedProductId: null,
-      isModalOpen: false,
-      showMessageModal: false,
-      modalMessage: '',
-      modalIsError: false,
-      currentPage: 1,
-      pageSize: 10,
+      currentPage: 1, // Página atual
+      total: 0, // Total de registros
+      pageSize: 10, // Itens por página
     };
   },
   async created() {
-    this.getProducts(this.currentPage);
+    await this.getProducts(this.currentPage); // Busca os dados ao carregar o componente
   },
-    computed: {
+  computed: {
     totalPages() {
-      return Math.ceil(this.products.length / this.pageSize);
+      return Math.ceil(this.total / this.pageSize); // Total de páginas
     },
     paginatedProducts() {
-      const start = (this.currentPage - 1) * this.pageSize;
-      const end = start + this.pageSize;
-      return this.products.slice(start, end);
+      return this.products; // Retorna os dados da página atual
     },
   },
   methods: {
@@ -78,42 +72,47 @@ export default {
     goToEdit(product) {
       this.$router.push(`/product/edit/${product.id}`);
     },
-    previousPage() {
-      if (this.currentPage > 1) this.currentPage--;
+    async previousPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--; // Vai para a página anterior
+        await this.getProducts(this.currentPage); // Busca os dados da nova página
+      }
     },
-    nextPage() {
-      if (this.currentPage < this.totalPages) this.currentPage++;
+    async nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++; // Vai para a próxima página
+        await this.getProducts(this.currentPage); // Busca os dados da nova página
+      }
     },
-
     async getProducts(page) {
-
-        try {
-            const response = await axios.get(`${API_BASE_URL}/products?page=${page}&page_size=${this.pageSize}`);
-            this.products = response.data.data;
-            this.currentPage = response.data.meta.current_page;
-        } catch (error) {
-            if (error.response && error.response.status === 422) {
-                alert(error.response.data.message);
-            } else {
-                console.error(error);
-            }
-        } finally {
-            this.loading = false;
+      try {
+        this.loading = true;
+        const response = await axios.get(`${API_BASE_URL}/products?page=${page}&page_size=${this.pageSize}`);
+        this.products = response.data.data; // Dados da página atual
+        this.currentPage = response.data.meta.current_page; // Sincroniza a página atual
+        this.total = response.data.meta.total; // Total de registros
+      } catch (error) {
+        if (error.response && error.response.status === 422) {
+          alert(error.response.data.message);
+        } else {
+          console.error(error);
         }
+      } finally {
+        this.loading = false;
+      }
     },
-
     async handleDelete(id) {
       if (confirm('Tem certeza que deseja excluir este produto?')) {
         try {
-            await axios.delete(`${API_BASE_URL}/products/${id}`);
-            this.products = this.products.filter(product => product.id !== id);
-            alert('Produto excluído com sucesso!');
+          await axios.delete(`${API_BASE_URL}/products/${id}`);
+          this.products = this.products.filter((product) => product.id !== id); // Remove o produto da lista
+          alert('Produto excluído com sucesso!');
         } catch (error) {
-            if (error.response && error.response.status === 422) {
-                alert(error.response.data.message);
-            } else {
-                console.error(error);
-            }
+          if (error.response && error.response.status === 422) {
+            alert(error.response.data.message);
+          } else {
+            console.error(error);
+          }
         }
       }
     },

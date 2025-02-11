@@ -1,5 +1,5 @@
 ﻿<template>
-    <div class="p-6">
+    <AppLayout>
         <h1 class="text-2xl font-bold mb-4">
             {{ isEdit ? 'Editar Produto' : 'Adicionar Produto' }}
         </h1>
@@ -14,17 +14,18 @@
                 class="bg-gray-500 text-white px-4 py-2 rounded-md mt-4">
             Voltar
         </button>
-    </div>
+    </AppLayout>
 </template>
 
 <script>
     import axios from 'axios';
-    import ProductForm from '../components/ProductForm.vue';
+    import AppLayout from '@/layouts/AppLayout.vue';
+    import ProductForm from '@/components/ProductForm.vue';
 
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
     export default {
-        components: { ProductForm },
+        components: { AppLayout, ProductForm },
         data() {
             return {
                 isEdit: false,
@@ -65,9 +66,11 @@
             async submitForm(formData) {
                 try {
                     if (this.isEdit) {
+                        console.log('editando');
                         await axios.put(`${API_BASE_URL}/products/${this.$route.params.id}`, formData);
                         alert('Produto atualizado com sucesso!');
                     } else {
+                        console.log('criando');
                         await axios.post(`${API_BASE_URL}/products`, formData);
                         alert('Produto criado com sucesso!');
                     }
