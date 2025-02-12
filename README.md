@@ -1,22 +1,36 @@
 # Sistema de Produtos - Frontend
 
-Este È o frontend do Sistema de Produtos, desenvolvido com Vue.js, Tailwind CSS e Zod para validaÁ„o de esquemas.
+Este √© o frontend do Sistema de Produtos, desenvolvido com Vue.js, Tailwind CSS e Zod para valida√ß√£o de esquemas.
 
 ## Funcionalidades
 
-- Listagem de produtos com paginaÁ„o.
-- CriaÁ„o, ediÁ„o e exclus„o de produtos.
-- ValidaÁ„o de formul·rios com Jest.
+- Listagem de produtos com pagina√ß√£o.
+- Cria√ß√£o, edi√ß√£o e exclus√£o de produtos.
+- Valida√ß√£o de formul√°rios com Jest.
 - Interface responsiva e moderna com Tailwind CSS.
 
-## PrÈ-requisitos
+## Pr√©-requisitos
 
 - Node.js (v16 ou superior)
 - npm (v8 ou superior)
 
-## InstalaÁ„o
+## Instala√ß√£o
 
-1. Clone o repositÛrio:
+1. Clone o reposit√≥rio:
    ```bash
    git clone https://github.com/walderalexandre/products-app-web
    cd products-app-web
+
+   ```bash
+   npm install
+
+   ```bash
+   cp .env.example .env
+
+   Edite o arquivo .env para apontar para a API do Laravel:
+   ```bash
+   VUE_APP_API_URL=http://<IP_PUBLICO_EC2>:8000/api
+
+   Compile o projeto
+   ```bash
+   npm run build
