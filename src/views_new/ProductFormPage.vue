@@ -26,6 +26,7 @@
             return {
                 isSubmitting: false,
                 isEdit: false,
+                productId: null,
                 selectedProduct: {
                     nome: '',
                     preco: 0,
@@ -36,13 +37,14 @@
         created() {
             if (this.$route.params.id) {
                 this.isEdit = true;
-                this.loadProduct(this.$route.params.id);
+                this.productId = this.$route.params.id;
+                this.loadProduct();
             }
         },
         methods: {
-            async loadProduct(productId) {
+            async loadProduct() {
                 try {
-                    const response = await axios.get(`${API_BASE_URL}/products/${productId}`);
+                    const response = await axios.get(`${API_BASE_URL}/products/${this.productId}`);
 
                     const apiData = response.data.data;
 
@@ -85,8 +87,11 @@
                 }
             },
             goBack() {
-                const productId = this.$route.params.id;
-                this.$router.push(`/product/details/${productId}`);
+                if (this.isEdit) {
+                    this.$router.push(`/product/details/${this.productId}`);
+                } else {
+                    this.$router.push(`/`);
+                }                
             },
         },
     };
