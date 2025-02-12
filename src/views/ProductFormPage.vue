@@ -30,7 +30,7 @@ export default {
       productId: null,
       selectedProduct: {
         nome: "",
-        preco: 0,
+        preco: "",
         descricao: "",
       },
     };

@@ -17,6 +17,7 @@
         label="Preço"
         type="number"
         placeholder="Digite o preço"
+        :required="true"
         :min="0"
         :step="0.01"
       />
